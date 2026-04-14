@@ -33,26 +33,26 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
   try {
     const db = await connectDB();
-    const reviewsCollection = db.collection('reviews');
+    const subcategoriesCollection = db.collection('subcategories');
 
     if (req.method === 'GET') {
-      const reviews = await reviewsCollection.find({}).sort({ date: -1 }).toArray();
-      return res.status(200).json(reviews);
+      const subcategories = await subcategoriesCollection.find({}).toArray();
+      return res.status(200).json(subcategories);
     }
 
     if (req.method === 'POST') {
-      const review = {
+      const subcategory = {
         ...req.body,
-        _id: req.body._id || `rev_${Date.now()}`,
+        _id: req.body._id || `subcat_${Date.now()}`,
         created_at: new Date()
       };
-      const result = await reviewsCollection.insertOne(review);
-      return res.status(200).json({ _id: result.insertedId, ...review });
+      const result = await subcategoriesCollection.insertOne(subcategory);
+      return res.status(200).json({ _id: result.insertedId, ...subcategory });
     }
 
     if (req.method === 'DELETE') {
-      const result = await reviewsCollection.deleteOne({ _id: req.query.id as string });
-      if (result.deletedCount === 0) return res.status(404).json({ error: 'Review not found' });
+      const result = await subcategoriesCollection.deleteOne({ _id: req.query.id as string });
+      if (result.deletedCount === 0) return res.status(404).json({ error: 'Subcategory not found' });
       return res.status(200).json({ success: true });
     }
 
