@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 20% 98%;
+    --foreground: 220 20% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 10%;
+
+    --primary: 160 84% 39%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 20% 10%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 10% 46%;
+
+    --accent: 160 84% 39%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 160 84% 39%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 220 26% 14%;
+    --sidebar-foreground: 220 14% 71%;
+    --sidebar-primary: 160 84% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 22% 19%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 220 20% 20%;
+    --sidebar-ring: 160 84% 45%;
+
+    --chart-1: 160 84% 39%;
+    --chart-2: 200 80% 50%;
+    --chart-3: 280 65% 60%;
+    --chart-4: 40 90% 55%;
+    --chart-5: 0 75% 60%;
+
+    --success: 160 84% 39%;
+    --warning: 40 90% 55%;
+    --info: 200 80% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer utilities {
+  .gradient-card-revenue {
+    background: linear-gradient(135deg, hsl(160 84% 39%), hsl(160 84% 30%));
+  }
+  .gradient-card-orders {
+    background: linear-gradient(135deg, hsl(200 80% 50%), hsl(200 80% 40%));
+  }
+  .gradient-card-customers {
+    background: linear-gradient(135deg, hsl(280 65% 60%), hsl(280 65% 50%));
+  }
+  .gradient-card-aov {
+    background: linear-gradient(135deg, hsl(40 90% 55%), hsl(40 90% 45%));
+  }
+}
