@@ -11,3 +11,4 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
   res.status(200).json({ status: 'ok' });
 };
+
