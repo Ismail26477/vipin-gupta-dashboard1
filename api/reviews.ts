@@ -1,15 +1,16 @@
 import { MongoClient } from 'mongodb';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const MONGODB_URI = process.env.MONGODB_URI || process.env.VITE_MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI;
 const DATABASE_NAME = process.env.MONGODB_DB_NAME || 'trolley';
 
 async function connectDB() {
-  const mongoClient = new MongoClient(MONGODB_URI!, {
+  if (!MONGODB_URI) {
+    throw new Error('MONGODB_URI environment variable is not set');
+  }
+  const mongoClient = new MongoClient(MONGODB_URI, {
     serverSelectionTimeoutMS: 5000,
     connectTimeoutMS: 10000,
-    retryWrites: true,
-    w: 'majority'
   });
   
   await mongoClient.connect();
