@@ -33,8 +33,17 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
   let mongoClient: MongoClient | null = null;
   try {
-    const db = await connectDB();
-    mongoClient = db.getClient ? (db as any).getClient() : null;
+    if (!MONGODB_URI) {
+      return res.status(500).json({ error: 'MONGODB_URI not configured' });
+    }
+    
+    mongoClient = new MongoClient(MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 10000,
+    });
+    await mongoClient.connect();
+    
+    const db = mongoClient.db(DATABASE_NAME);
     const customersCollection = db.collection('customers');
 
     if (req.method === 'GET') {
@@ -49,12 +58,11 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
     res.status(405).json({ error: 'Method not allowed' });
   } catch (error: any) {
-    console.error('[API] Customers error:', error);
-    res.status(500).json({ error: error.message || 'Internal server error', details: process.env.NODE_ENV === 'development' ? error.stack : undefined });
+    console.error('Customers API error:', error);
+    res.status(500).json({ error: error.message || 'Internal server error' });
   } finally {
-    // Close connection if exists
     if (mongoClient) {
-      await mongoClient.close().catch(err => console.error('[API] Error closing connection:', err));
+      await mongoClient.close().catch(err => console.error('Error closing connection:', err));
     }
   }
 };
